@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout, set up Yarn and Node.js
-        uses: mskelton/setup-yarn
+        uses: mskelton/setup-yarn@v1.4.0
       
       - run: yarn --frozen-lockfile
       - run: yarn lint && yarn build
