@@ -4,15 +4,59 @@
   "name": "react-icon-ether",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/react-icon-ether.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
     "release": "yarn build && changeset publish"
   },
+  "author": {
+    "name": "Adele Beitvashahi",
+    "email": "adelbeit@gmail.com",
+    "url": "https://adelbeit.com"
+  },
+  "keywords": [
+    "react component",
+    "react-component",
+    "react",
+    "icon ether",
+    "iconether",
+    "icon-ether",
+    "image ether",
+    "imageether",
+    "image-ether",
+    "floating images",
+    "floatingimages",
+    "floating-images",
+    "canvas",
+    "react image",
+    "reactimage",
+    "react-image",
+    "particle canvas",
+    "particle-canvas",
+    "particlecanvas"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adelbeit/react-icon-ether"
+  },
+  "bugs": {
+    "url": "https://github.com/adelbeit/react-icon-ether/issues"
+  },
+  "homepage": "https://github.com/adelbeit/react-icon-ether",
+  "size-limit": [
+    {
+      "path": "dist/react-icon-ether.mjs.production.min.js",
+      "limit": "20 KB"
+    }
+  ],
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
+    "@size-limit/preset-small-lib": "^8.2.4",
+    "size-limit": "^8.2.4",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4"
   }
