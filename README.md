@@ -1,1 +1,2 @@
-# IconEther
+# React Icon Ether
+
