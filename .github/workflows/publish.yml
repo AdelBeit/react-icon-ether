@@ -8,6 +8,8 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout, setup Yarn and Node.js
