@@ -16,6 +16,6 @@ jobs:
       - run: yarn --frozen-lockfile
       - name: Create Release Pull Request or Publish
         id: changesets
-        uses: changesets/actions@1
+        uses: changesets/action@v1
         with:
           publish: yarn build
