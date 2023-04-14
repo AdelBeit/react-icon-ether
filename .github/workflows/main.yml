@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3.5.2
+      - name: Set up Yarn
+        uses: mskelton/setup-yarn@v1.4.0
+      
+      - run: yarn --frozen-lockfile
+      - run: yarn lint && yarn build
