@@ -8,10 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - name: Checkout repo
-      #   uses: actions/checkout@v3.5.2
-      - name: Set up Yarn and Node.js
-        uses: mskelton/setup-yarn@v1.4.0
+      - name: Checkout, set up Yarn and Node.js
+        uses: mskelton/setup-yarn
       
       - run: yarn --frozen-lockfile
       - run: yarn lint && yarn build

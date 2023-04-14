@@ -1,0 +1,21 @@
+name: Publish
+on:
+  push: 
+    branches:
+      - "main"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }} 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout, setup Yarn and Node.js
+        uses: mskelton/setup-yarn
+      
+      - run: yarn --frozen-lockfile
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/actions@1
+        with:
+          publish: yarn build
