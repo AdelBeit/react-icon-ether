@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: log tok
-        run: echo ${{secrets.GITHUB_TOKEN}}
+        run: | 
+          echo ${{github.token}}
+          echo ${{secrets.GITHUB_TOKEN}}
       - name: Checkout, setup Yarn and Node.js
         uses: mskelton/setup-yarn@v1.4.0
       
