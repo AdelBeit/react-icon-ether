@@ -1,29 +1,29 @@
-name: Publish
+name: Release
+
 on:
   push:
     branches:
-      - "main"
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  publish:
-    permissions:
-      contents: write
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: log tok
-        run: | 
-          echo ${{github.token}}
-          echo ${{secrets.GITHUB_TOKEN}}
-      - name: Checkout, setup Yarn and Node.js
-        uses: mskelton/setup-yarn@v1.4.0
-      
-      - run: yarn --frozen-lockfile
-      # - name: Create Release Pull Request or Publish
-      #   id: changesets
-      #   uses: changesets/action@v1
-      #   with:
-      #     publish: yarn release
-      #   env: 
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
