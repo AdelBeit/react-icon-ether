@@ -12,16 +12,16 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+      - name: log tok
+        run: echo ${{secrets.GITHUB_TOKEN}}
       - name: Checkout, setup Yarn and Node.js
         uses: mskelton/setup-yarn@v1.4.0
       
       - run: yarn --frozen-lockfile
-      - name: Create Release Pull Request or Publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: yarn release
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: log tok
-        run: echo ${{secrets.GITHUB_TOKEN}}
+      # - name: Create Release Pull Request or Publish
+      #   id: changesets
+      #   uses: changesets/action@v1
+      #   with:
+      #     publish: yarn release
+      #   env: 
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
