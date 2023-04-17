@@ -10,8 +10,7 @@
     "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
     "size": "size-limit",
-    "analyze": "size-limit --why",
-    "release": "yarn build && changeset publish"
+    "analyze": "size-limit --why"
   },
   "author": {
     "name": "Adele Beitvashahi",
