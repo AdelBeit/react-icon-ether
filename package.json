@@ -3,9 +3,9 @@
   "description": "A React component that renders any number of pregenerated HTMLImageElements that move about randomly.",
   "name": "react-icon-ether",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/react-icon-ether.js",
   "module": "dist/react-icon-ether.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/react-icon-ether.d.ts",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
