@@ -1,3 +1,1 @@
-export const App = () => {
-  return "initialized";
-};
+export { IconEther } from "./src/components/IconEther.js";

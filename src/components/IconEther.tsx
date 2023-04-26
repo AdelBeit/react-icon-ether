@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import Particle from "./Particle";
-import { simpleIconsCDN } from "./preLoadImages";
+import Particle from "../utils/Particle";
+import preLoadImages, { simpleIconsCDN } from "../utils/preLoadImages";
+// import styles from "./IconEther.module.css";
 
 // TODO: use particlejs instead for animating the particles. there is a bug with variable dx,dy after screen resize events
 
@@ -45,23 +46,25 @@ const ETHERICONS = [
   "jira",
   "arduino",
   "php",
-  // "d3dotjs",
-  // "threedotjs",
-  // "jest",
-  // "playwright",
-  // "puppeteer",
-  // "json",
-  // "webpack",
-  // "babel",
-  // "kubernetes",
-  // "jamstack",
-  // "dotenv",
-  // "tonejs",
 ];
 
-export const etherIcons = ETHERICONS.map((i) => simpleIconsCDN(i));
+const iconURLS = ETHERICONS.map((i) => simpleIconsCDN(i));
 
-export default function IconEther() {
+interface Props {
+  particlesShouldConnect?: boolean;
+  renderImages?: boolean;
+  renderDots?: boolean;
+}
+
+function IconEther({
+  particlesShouldConnect: connect = undefined,
+  renderImages: imgs = undefined,
+  renderDots: dots = undefined,
+}: Props) {
+  useEffect(() => {
+    if (imgs) preLoadImages(iconURLS, "EtherIconsLoaded");
+  }, []);
+
   useEffect(() => {
     const canvas = document.querySelector("canvas");
 
@@ -81,6 +84,8 @@ export default function IconEther() {
     };
 
     const init = () => {
+      if (!imgs || !dots) return;
+
       ctx.clearRect(0, 0, innerWidth, innerHeight);
       imgParticles = [];
       dotParticles = [];
@@ -138,24 +143,23 @@ export default function IconEther() {
       requestAnimationFrame(animate);
       ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-      animateImgParticles();
-      // animateDotParticles();
+      if (imgs) animateImgParticles();
+      if (dots) animateDotParticles();
     };
 
     const animateImgParticles = () => {
       const n = Math.min(imgParticles.length, maxImgs);
       for (let i = 0; i < n; i++) {
-        // for (let i = 0; i < 1; i++) {
         imgParticles[i].update(ctx);
       }
-      // connect(imgParticles);
+      if (connect) connect(imgParticles);
     };
 
     const animateDotParticles = () => {
       for (let i = 0; i < dotParticles.length; i++) {
         dotParticles[i].update(ctx);
       }
-      connect(dotParticles);
+      if (connect) connect(dotParticles);
     };
 
     document.addEventListener("EtherIconsLoaded", (e: CustomEvent) => {
@@ -175,9 +179,29 @@ export default function IconEther() {
   }, []);
 
   return (
-    <div className="_container">
-      <canvas></canvas>
-      <div className="blurred-background absolute"></div>
+    // <div className={styles._container}>
+    <div
+      className="_container"
+      style={{ margin: "0", padding: "0", boxSizing: "border-box" }}
+    >
+      <canvas
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          background: "var(--black)",
+          opacity: "0.4",
+          zIndex: "0",
+        }}
+      ></canvas>
+      <div
+        className="blurred-background absolute"
+        style={{ position: "absolute" }}
+      ></div>
     </div>
   );
 }
+
+export { IconEther };
