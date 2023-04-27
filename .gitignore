@@ -1,3 +1,15 @@
+# dependencies
 node_modules
+
+# production
 dist
+public/main.css
+
+# editors
+/.vscode
+
+# misc
 *.log
+.DS_Store
+yarn-debug.log*
+yarn-error.log*

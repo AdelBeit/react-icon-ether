@@ -5,7 +5,7 @@ export default class Particle {
   dY: number;
   size: number;
   maxSize: number;
-  img: HTMLImageElement | null;
+  img: HTMLImageElement | undefined;
   tStep: number;
   t: number;
 
@@ -15,14 +15,14 @@ export default class Particle {
     dX,
     dY,
     size,
-    img = null,
+    img = undefined,
   }: {
     x: number;
     y: number;
     dX: number;
     dY: number;
     size: number;
-    img?: HTMLImageElement;
+    img?: HTMLImageElement | undefined;
   }) {
     this.x = x;
     this.y = y;

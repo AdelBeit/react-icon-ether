@@ -1,4 +1,4 @@
-export const simpleIconsCDN = (icon, color = "33FF00") => {
+export const simpleIconsCDN = (icon: string, color: string = "33FF00") => {
   const fallbackIcons = ["tonejs"];
   if (fallbackIcons.includes(icon)) {
     return `./fallback svg/${icon}.svg`;
@@ -21,7 +21,7 @@ export default function preLoadImages(
       img.onerror = function () {
         rej(new Error("failed to load image."));
       };
-      img.src = imageLinks[i];
+      img.src = imageLinks[i]!;
     });
 
     imagePromises.push(imagePromise);

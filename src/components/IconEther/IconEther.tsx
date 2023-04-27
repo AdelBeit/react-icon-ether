@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import Particle from "../utils/Particle";
-import preLoadImages, { simpleIconsCDN } from "../utils/preLoadImages";
+import Particle from "../../utils/Particle";
+import preLoadImages, { simpleIconsCDN } from "../../utils/preLoadImages";
 // import styles from "./IconEther.module.css";
 
 // TODO: use particlejs instead for animating the particles. there is a bug with variable dx,dy after screen resize events
@@ -57,7 +57,7 @@ interface Props {
 }
 
 function IconEther({
-  particlesShouldConnect: connect = undefined,
+  particlesShouldConnect: shouldConnect = undefined,
   renderImages: imgs = undefined,
   renderDots: dots = undefined,
 }: Props) {
@@ -66,9 +66,9 @@ function IconEther({
   }, []);
 
   useEffect(() => {
-    const canvas = document.querySelector("canvas");
+    const canvas = document.querySelector("canvas")!;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d")!;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     let imgParticles: Particle[] = [];
@@ -98,7 +98,7 @@ function IconEther({
         const y = size * 2 + Math.random() * (innerHeight - size * 4);
         const dX = (Math.random() * 2 - 1) / 10;
         const dY = (Math.random() * 2 - 1) / 10;
-        const img = i < n ? imgs[i] : null;
+        const img = i < n ? imgs[i] : undefined;
 
         const particle = {
           x: x,
@@ -120,8 +120,8 @@ function IconEther({
       let opacity = 1;
       for (let a = 0; a < particles.length; a++) {
         for (let b = a; b < particles.length; b++) {
-          const pA = particles[a];
-          const pB = particles[b];
+          const pA = particles[a]!;
+          const pB = particles[b]!;
           const dx = pA.x - pB.x;
           const dy = pA.y - pB.y;
           const distance = dx * dx + dy * dy;
@@ -150,20 +150,20 @@ function IconEther({
     const animateImgParticles = () => {
       const n = Math.min(imgParticles.length, maxImgs);
       for (let i = 0; i < n; i++) {
-        imgParticles[i].update(ctx);
+        imgParticles[i]!.update(ctx);
       }
-      if (connect) connect(imgParticles);
+      if (shouldConnect) connect(imgParticles);
     };
 
     const animateDotParticles = () => {
       for (let i = 0; i < dotParticles.length; i++) {
-        dotParticles[i].update(ctx);
+        dotParticles[i]!.update(ctx);
       }
-      if (connect) connect(dotParticles);
+      if (shouldConnect) connect(dotParticles);
     };
 
-    document.addEventListener("EtherIconsLoaded", (e: CustomEvent) => {
-      imgs = e.detail;
+    document.addEventListener("EtherIconsLoaded", (e: Event) => {
+      imgs = (e as CustomEvent).detail;
       init();
     });
 
@@ -171,17 +171,17 @@ function IconEther({
 
     return () => {
       window.removeEventListener("resize", resizeHandler);
-      document.removeEventListener("EtherIconsLoaded", (e: CustomEvent) => {
-        imgs = e.detail;
+      document.removeEventListener("EtherIconsLoaded", (e: Event) => {
+        imgs = (e as CustomEvent).detail;
         init();
       });
     };
   }, []);
 
   return (
-    // <div className={styles._container}>
     <div
       className="_container"
+      // className={styles._container}
       style={{ margin: "0", padding: "0", boxSizing: "border-box" }}
     >
       <canvas
