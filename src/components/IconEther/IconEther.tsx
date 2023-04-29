@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Particle from "../../utils/Particle";
 import preLoadImages, { simpleIconsCDN } from "../../utils/preLoadImages";
-// import styles from "./IconEther.module.css";
+import "./IconEther.css";
+import hexToRGBA from "../../utils/colorRGBA";
 
 // TODO: use particlejs instead for animating the particles. there is a bug with variable dx,dy after screen resize events
 
@@ -54,15 +55,43 @@ interface Props {
   particlesShouldConnect?: boolean;
   renderImages?: boolean;
   renderDots?: boolean;
+  backgroundColor?: string;
+  particleColor?: string;
+  height?: number | string;
+  width?: number | string;
+  fullScreen?: boolean;
 }
 
+/**
+ * IconEther
+ *Renders an Ethereum-inspired animated particle icon.
+ *@param backgroundColor Background color in hexadecimal format.
+ *@param particleColor Particle color in hexadecimal format.
+ *@param particlesShouldConnect Determines if the particles should be connected.
+ *@param renderImages Determines if the images should be rendered.
+ *@param renderDots Determines if the dots should be rendered.
+ *@param fullScreen Determines if the icon should be rendered in full screen.
+ *@param height The height of the icon, in pixels or as a percentage.
+ *@param width The width of the icon, in pixels or as a percentage.
+ *@returns IconEther Component
+ */
 function IconEther({
-  particlesShouldConnect: shouldConnect = undefined,
-  renderImages: imgs = undefined,
-  renderDots: dots = undefined,
+  particlesShouldConnect = undefined,
+  renderImages = undefined,
+  renderDots = undefined,
+  fullScreen = true,
+  backgroundColor = "#282828",
+  particleColor = "#33FF00",
+  height = "100%",
+  width = "100%",
 }: Props) {
+  if (!renderImages && !renderDots) renderImages = true;
+  if (height || width) fullScreen = false;
+  fullScreen = true;
+  height = width = "100%";
+
   useEffect(() => {
-    if (imgs) preLoadImages(iconURLS, "EtherIconsLoaded");
+    if (renderImages) preLoadImages(iconURLS, "EtherIconsLoaded");
   }, []);
 
   useEffect(() => {
@@ -73,7 +102,7 @@ function IconEther({
     canvas.height = window.innerHeight;
     let imgParticles: Particle[] = [];
     let dotParticles: Particle[] = [];
-    let imgs: HTMLImageElement[] = [];
+    let imgs: HTMLImageElement[] = []; // prefilled through preLoadImages()
     const maxImgs = canvas.width <= 500 ? 10 : canvas.width <= 700 ? 18 : 30;
     const imgSize = canvas.width <= 500 ? 20 : canvas.width <= 700 ? 27 : 30;
 
@@ -84,9 +113,10 @@ function IconEther({
     };
 
     const init = () => {
-      if (!imgs || !dots) return;
-
       ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
+
       imgParticles = [];
       dotParticles = [];
       const dotParticleCount = 20;
@@ -108,6 +138,7 @@ function IconEther({
           size:
             size / (canvas.width <= 500 ? 1.2 : canvas.width <= 700 ? 1.1 : 1),
           img: img,
+          color: particleColor,
         };
         if (i < n) imgParticles.push(new Particle(particle));
         else dotParticles.push(new Particle(particle));
@@ -128,7 +159,7 @@ function IconEther({
 
           if (distance < (canvas.width * canvas.height) / 49) {
             opacity = 1 - distance / 10000;
-            ctx.strokeStyle = `rgba(51, 255, 0, ${opacity})`;
+            ctx.strokeStyle = hexToRGBA(particleColor, opacity);
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(pA.x, pA.y);
@@ -143,8 +174,10 @@ function IconEther({
       requestAnimationFrame(animate);
       ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-      if (imgs) animateImgParticles();
-      if (dots) animateDotParticles();
+      if (renderImages) animateImgParticles();
+      if (renderDots) animateDotParticles();
+      ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
     };
 
     const animateImgParticles = () => {
@@ -152,14 +185,14 @@ function IconEther({
       for (let i = 0; i < n; i++) {
         imgParticles[i]!.update(ctx);
       }
-      if (shouldConnect) connect(imgParticles);
+      if (particlesShouldConnect) connect(imgParticles);
     };
 
     const animateDotParticles = () => {
       for (let i = 0; i < dotParticles.length; i++) {
         dotParticles[i]!.update(ctx);
       }
-      if (shouldConnect) connect(dotParticles);
+      if (particlesShouldConnect) connect(dotParticles);
     };
 
     document.addEventListener("EtherIconsLoaded", (e: Event) => {
@@ -180,25 +213,27 @@ function IconEther({
 
   return (
     <div
-      className="_container"
-      // className={styles._container}
-      style={{ margin: "0", padding: "0", boxSizing: "border-box" }}
+      className="IconEther_container"
+      style={{
+        position: fullScreen ? "initial" : "relative",
+        width: fullScreen ? "initial" : width,
+        height: fullScreen ? "initial" : height,
+        background: backgroundColor,
+      }}
     >
       <canvas
         style={{
-          position: "absolute",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          background: "var(--black)",
-          opacity: "0.4",
-          zIndex: "0",
+          width: width,
+          height: height,
+          background: backgroundColor,
         }}
       ></canvas>
       <div
-        className="blurred-background absolute"
-        style={{ position: "absolute" }}
+        className="blurred-background"
+        style={{
+          width: width,
+          height: fullScreen ? "100%" : height,
+        }}
       ></div>
     </div>
   );

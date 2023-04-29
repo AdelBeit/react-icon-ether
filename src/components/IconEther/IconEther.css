@@ -1,0 +1,42 @@
+.IconEther_container {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.IconEther_container > * {
+  position: absolute;
+}
+
+.IconEther_container canvas {
+  top: 0;
+  left: 0;
+  opacity: 1;
+  z-index: 0;
+}
+
+.IconEther_container .blurred-background {
+  top: -10px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(rgba(57, 251, 9, 0.02), rgba(51, 255, 0, 0.005)),
+    repeating-linear-gradient(
+      0,
+      transparent,
+      transparent 2px,
+      rgba(40, 40, 40, 0.4) 5px,
+      rgba(40, 40, 40, 0.4) 5px
+    );
+  background-size: cover;
+  background-position: center;
+  transform: translateY(0);
+  animation: CTR-Monitor 0.2s linear infinite;
+}
+
+/* animations */
+@keyframes CTR-Monitor {
+  to {
+    transform: translateY(10px);
+  }
+}
