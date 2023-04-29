@@ -1,15 +1,20 @@
+# logs
+logs
+*.log
+*-debug.log*
+*-error.log*
+.DS_Store
+
 # dependencies
 node_modules
 
 # production
 dist
+dist-ssr
+*.local
 public/main.css
 
 # editors
 /.vscode
-
-# misc
-*.log
-.DS_Store
-yarn-debug.log*
-yarn-error.log*
+!.vscode/extensions.json
+.idea
