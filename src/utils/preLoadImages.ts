@@ -1,3 +1,9 @@
+/**
+ * Returns a URL string to the Simple Icons CDN with the given icon name and color. If the icon is in the fallback list, returns a local path instead.
+ * @param icon - the name of the icon to be fetched
+ * @param color - the color to be applied to the icon (default is "33FF00")
+ * @returns a URL string to the Simple Icons CDN or a local path
+ */
 export const simpleIconsCDN = (icon: string, color: string = "33FF00") => {
   const fallbackIcons = ["tonejs"];
   if (fallbackIcons.includes(icon)) {
@@ -6,6 +12,11 @@ export const simpleIconsCDN = (icon: string, color: string = "33FF00") => {
   return `https://cdn.simpleicons.org/${icon}/${color}`;
 };
 
+/**
+ * Preloads images by creating Image objects and dispatching a custom event with the loaded images as details.
+ * @param imageLinks - an array of image URLs to be preloaded
+ * @param customEventName - the name of the custom event to be dispatched
+ */
 export default function preLoadImages(
   imageLinks: string[],
   customEventName: string

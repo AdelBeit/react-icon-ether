@@ -8,6 +8,7 @@ export default class Particle {
   img: HTMLImageElement | undefined;
   tStep: number;
   t: number;
+  color: string;
 
   constructor({
     x,
@@ -16,6 +17,7 @@ export default class Particle {
     dY,
     size,
     img = undefined,
+    color = "#33FF00",
   }: {
     x: number;
     y: number;
@@ -23,6 +25,7 @@ export default class Particle {
     dY: number;
     size: number;
     img?: HTMLImageElement | undefined;
+    color?: string;
   }) {
     this.x = x;
     this.y = y;
@@ -33,6 +36,7 @@ export default class Particle {
     this.img = img;
     this.tStep = Math.random() * 0.01 + 0.01;
     this.t = Math.random() * 100;
+    this.color = color;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -47,7 +51,7 @@ export default class Particle {
     else {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-      ctx.fillStyle = "#33FF00";
+      ctx.fillStyle = this.color;
       ctx.fill();
     }
   }
