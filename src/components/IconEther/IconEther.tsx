@@ -4,8 +4,6 @@ import preLoadImages from "../../utils/preLoadImages";
 import "./IconEther.css";
 import hexToRGBA from "../../utils/colorRGBA";
 
-// TODO: use particlejs instead for animating the particles. there is a bug with variable dx,dy after screen resize events
-
 interface Props {
   particlesShouldConnect?: boolean;
   renderImages?: boolean;
