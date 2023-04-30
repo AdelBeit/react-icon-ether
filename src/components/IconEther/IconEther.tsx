@@ -1,55 +1,10 @@
 import React, { useEffect } from "react";
 import Particle from "../../utils/Particle";
-import preLoadImages, { simpleIconsCDN } from "../../utils/preLoadImages";
+import preLoadImages from "../../utils/preLoadImages";
 import "./IconEther.css";
 import hexToRGBA from "../../utils/colorRGBA";
 
 // TODO: use particlejs instead for animating the particles. there is a bug with variable dx,dy after screen resize events
-
-const ETHERICONS = [
-  "typescript",
-  "javascript",
-  "nextdotjs",
-  "react",
-  "nodedotjs",
-  "express",
-  "socketdotio",
-  "html5",
-  "css3",
-  "git",
-  "github",
-  "figma",
-  "yarn",
-  "npm",
-  "docker",
-  "amazonaws",
-  "graphql",
-  "netlify",
-  "vercel",
-  "svelte",
-  "python",
-  "mysql",
-  "digitalocean",
-  "mongodb",
-  "postgresql",
-  "microsoftazure",
-  "googlecloud",
-  "heroku",
-  "pnpm",
-  "visualstudiocode",
-  "bootstrap",
-  "gitlab",
-  "bitbucket",
-  "android",
-  "androidstudio",
-  "swift",
-  "mui",
-  "jira",
-  "arduino",
-  "php",
-];
-
-const iconURLS = ETHERICONS.map((i) => simpleIconsCDN(i));
 
 interface Props {
   particlesShouldConnect?: boolean;
@@ -60,20 +15,22 @@ interface Props {
   height?: number | string;
   width?: number | string;
   fullScreen?: boolean;
+  icons: string[];
 }
 
 /**
  * IconEther
- *Renders an Ethereum-inspired animated particle icon.
- *@param backgroundColor Background color in hexadecimal format.
- *@param particleColor Particle color in hexadecimal format.
- *@param particlesShouldConnect Determines if the particles should be connected.
- *@param renderImages Determines if the images should be rendered.
- *@param renderDots Determines if the dots should be rendered.
- *@param fullScreen Determines if the icon should be rendered in full screen.
- *@param height The height of the icon, in pixels or as a percentage.
- *@param width The width of the icon, in pixels or as a percentage.
- *@returns IconEther Component
+ * Renders an Ethereum-inspired animated particle icon.
+ * @param backgroundColor Background color in hexadecimal format.
+ * @param particleColor Particle color in hexadecimal format.
+ * @param particlesShouldConnect Determines if the particles should be connected.
+ * @param renderImages Determines if the images should be rendered.
+ * @param renderDots Determines if the dots should be rendered.
+ * @param fullScreen Determines if the icon should be rendered in full screen.
+ * @param height The height of the icon, in pixels or as a percentage.
+ * @param width The width of the icon, in pixels or as a percentage.
+ * @param icons The name of icons to render.
+ * @returns IconEther Component
  */
 function IconEther({
   particlesShouldConnect = undefined,
@@ -84,6 +41,7 @@ function IconEther({
   particleColor = "#33FF00",
   height = "100%",
   width = "100%",
+  icons = [],
 }: Props) {
   if (!renderImages && !renderDots) renderImages = true;
   if (height || width) fullScreen = false;
@@ -91,7 +49,7 @@ function IconEther({
   height = width = "100%";
 
   useEffect(() => {
-    if (renderImages) preLoadImages(iconURLS, "EtherIconsLoaded");
+    if (renderImages) preLoadImages(icons, "EtherIconsLoaded");
   }, []);
 
   useEffect(() => {
