@@ -20,8 +20,8 @@ interface Props {
 /**
  * IconEther
  * Renders a component with moving particles
- * @param backgroundColor Background color in hexadecimal format.
- * @param particleColor Particle color in hexadecimal format.
+ * @param backgroundColor Background color in hexadecimal string format, i.e. "#ffffff"
+ * @param particleColor Particle color in hexadecimal hexadecimal string format, i.e. "#ffffff"
  * @param renderImages Determines if the images should be rendered.
  * @param renderDots Determines if the dots should be rendered.
  * @param fullScreen Determines if the icon should be rendered in full screen.
