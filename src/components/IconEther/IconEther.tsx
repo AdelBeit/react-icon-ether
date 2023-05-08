@@ -14,6 +14,7 @@ interface Props {
   width?: number | string;
   fullScreen?: boolean;
   icons: string[];
+  dotSize?: number;
 }
 
 /**
@@ -27,17 +28,19 @@ interface Props {
  * @param height The height of the icon, in pixels or as a percentage.
  * @param width The width of the icon, in pixels or as a percentage.
  * @param icons The name of icons to render.
+ * @param dotSize Dot particle size
  * @returns IconEther Component
  */
 function IconEther({
+  backgroundColor = "#282828",
+  particleColor = "#33FF00",
   renderImages = true,
   renderDots = false,
   fullScreen = true,
-  backgroundColor = "#282828",
-  particleColor = "#33FF00",
   height = "100%",
   width = "100%",
   icons = [],
+  dotSize = 2,
 }: Props) {
   if (fullScreen) height = width = "100%";
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -69,8 +72,7 @@ function IconEther({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    if (renderImages && !loadedImages) return;
+    if (imgsLoaded()) return;
 
     initialize(canvas);
     animationID.current = requestAnimationFrame(animate);
@@ -81,6 +83,7 @@ function IconEther({
     if (!dotParticles) return;
     if (!imgParticles && renderImages) return;
 
+    clearAnimations();
     animationID.current = requestAnimationFrame(animate);
   }, [dotParticles, imgParticles]);
 
@@ -102,13 +105,22 @@ function IconEther({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    if (renderImages && !loadedImages) return;
+    if (imgsLoaded()) return;
 
     initialize(canvas);
-  }, [renderImages, renderDots, particleColor]);
+  }, [renderImages, renderDots]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (imgsLoaded()) return;
+
+    generateParticles(canvas, "dots");
+  }, [particleColor, dotSize]);
 
   const initialize = (canvas: HTMLCanvasElement) => {
-    if (animationID.current) cancelAnimationFrame(animationID.current);
+    clearAnimations();
     const ctx = canvas.getContext("2d")!;
 
     canvas.width = window.innerWidth;
@@ -139,7 +151,7 @@ function IconEther({
     if (type === "imgs") count = maxImgs.current;
 
     for (let i = 0; i < count; i++) {
-      let size = 1 + Math.random() * 2;
+      let size = 1 + Math.random() * dotSize;
       if (type === "imgs")
         size = (Math.random() * imgSize.current) / 2.5 + imgSize.current;
       const x = size * 2 + Math.random() * (canvas.width - size * 4);
@@ -185,6 +197,13 @@ function IconEther({
     ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
+
+  // utils
+  const clearAnimations = () => {
+    if (animationID.current) cancelAnimationFrame(animationID.current);
+  };
+
+  const imgsLoaded = () => renderImages && loadedImages.length < 1;
 
   return (
     <div
