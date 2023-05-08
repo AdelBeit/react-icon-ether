@@ -1,6 +1,6 @@
-import { MouseEvent, useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import "./App.css";
-import { IconEther } from "./components/IconEther/IconEther";
+import { IconEther } from "../components/IconEther/IconEther";
 
 const ETHERICONS = [
   "typescript",
@@ -55,6 +55,7 @@ function App() {
     height: "100%",
     width: "100%",
     icons: ETHERICONS,
+    dotSize: 2,
   };
   const [renderImages, setRenderImages] = useState(defaults.renderImages);
   const [renderDots, setRenderDots] = useState(defaults.renderDots);
@@ -66,6 +67,7 @@ function App() {
   const [height, setHeight] = useState(defaults.height);
   const [width, setWidth] = useState(defaults.width);
   const [icons, setIcons] = useState(defaults.icons);
+  const [dotSize, setDotSize] = useState<number | undefined>(defaults.dotSize);
   const [isDefaultProps, setIsDefaultProps] = useState(true);
 
   // dragging state
@@ -99,6 +101,7 @@ function App() {
     setRenderImages(defaults.renderImages);
     setRenderDots(defaults.renderDots);
     setFullScreen(defaults.fullScreen);
+    setDotSize(defaults.dotSize);
   };
 
   return (
@@ -161,7 +164,7 @@ function App() {
             <input
               type="checkbox"
               onChange={() => {
-                setRenderImages(!renderImages);
+                setRenderImages((p) => !p);
                 setIsDefaultProps(false);
               }}
               checked={renderImages}
@@ -173,7 +176,7 @@ function App() {
             <input
               type="checkbox"
               onChange={() => {
-                setRenderDots(!renderDots);
+                setRenderDots((p) => !p);
                 setIsDefaultProps(false);
               }}
               checked={renderDots}
@@ -217,9 +220,24 @@ function App() {
               }}
             />
           </label>
+          <label className="input-group">
+            <span className="label-text whitespace-nowrap">Dot Size</span>
+            <input
+              type="range"
+              min={2}
+              max={10}
+              className={`bg-[#fe0] range range-sm self-center `}
+              value={dotSize}
+              onChange={(e) => {
+                setDotSize(e.target.valueAsNumber);
+                setRenderDots(true);
+                setIsDefaultProps(false);
+              }}
+            />
+          </label>
           <label
             className="input-group tooltip"
-            data-tip="disabled feature, see github issues"
+            data-tip="feature disabled, see github issues"
           >
             <span className="label-text w-full">
               <s className="">Image Size</s>
@@ -228,7 +246,7 @@ function App() {
 
           <label
             className="input-group tooltip"
-            data-tip="disabled feature, see github issues"
+            data-tip="feature disabled, see github issues"
           >
             <span className="label-text w-full">
               <s className="">Icons List</s>
@@ -240,6 +258,7 @@ function App() {
       <IconEther
         renderDots={renderDots}
         renderImages={renderImages}
+        dotSize={dotSize}
         fullScreen={fullScreen}
         backgroundColor={backgroundColor}
         particleColor={particleColor}
