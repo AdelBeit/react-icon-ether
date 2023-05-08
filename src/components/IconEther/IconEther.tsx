@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Particle from "../../utils/Particle";
 import preLoadImages from "../../utils/preLoadImages";
 import "./IconEther.css";
-import hexToRGBA from "../../utils/hex-rgba";
+import hexToRGBA from "../../utils/hexToRGBA";
 
 interface Props {
   particlesShouldConnect?: boolean;
