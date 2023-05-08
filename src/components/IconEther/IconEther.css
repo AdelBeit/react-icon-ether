@@ -5,18 +5,14 @@
   overflow: hidden;
 }
 
-.IconEther_container > * {
-  position: absolute;
-}
-
-.IconEther_container canvas {
+.IconEther_container .IconEther_canvas {
   top: 0;
   left: 0;
   opacity: 1;
   z-index: 0;
 }
 
-.IconEther_container .blurred-background {
+.IconEther_container .IconEther_overlay {
   top: -10px;
   left: 0;
   right: 0;

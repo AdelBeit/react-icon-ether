@@ -8,7 +8,8 @@ import { urlExists } from "./urlExists";
  * @param color - the hex color of the icon
  * @returns a URL string to the Simple Icons CDN or a local path
  */
-export async function simpleIconsCDN(icon: string, color: string = "33FF00") {
+export async function simpleIconsCDN(icon: string, color: string = "#33FF00") {
+  color = color.replace("#", "");
   const simpleIconsCDN = `https://cdn.simpleicons.org/${icon}/${color}`;
   if (await urlExists(simpleIconsCDN)) return simpleIconsCDN;
 
@@ -21,35 +22,30 @@ export async function simpleIconsCDN(icon: string, color: string = "33FF00") {
 }
 
 /**
- * Preloads images by creating Image objects and dispatching a custom event with the loaded images as details.
+ * Preloads images by creating Image objects
  * @param iconNames - an array of icon names to be preloaded
- * @param customEventName - the name of the custom event to be dispatched
+ * @returns an array of Image objects
  */
 export default async function preLoadImages(
   iconNames: string[],
-  customEventName: string
+  color: string = "#33ff00"
 ) {
-  const URLs = iconNames.map((i) => simpleIconsCDN(i));
-  const imagePromises = [];
+  const URLs = iconNames.map((i) => simpleIconsCDN(i, color));
 
-  for (let i = 0; i < URLs.length; i++) {
-    const img = loadImage(await URLs[i]);
+  return Promise.all(URLs.map(async (url) => loadImage(await url)));
 
-    imagePromises.push(img);
-  }
-
-  Promise.all(imagePromises).then((images) => {
-    const event = new CustomEvent(customEventName, { detail: images });
-    document.dispatchEvent(event);
-  });
+  //   Promise.all(imagePromises).then((images) => {
+  //     const event = new CustomEvent(customEventName, { detail: images });
+  //     document.dispatchEvent(event);
+  //   });
+  // }
 }
 
-function loadImage(url: string) {
+function loadImage(url: string): Promise<HTMLImageElement> {
   const img = new Image(30, 30);
   return new Promise((res, rej) => {
     img.onload = () => res(img);
     img.onerror = () => rej(new Error("Failed to load " + url));
-
     img.src = url;
   });
 }

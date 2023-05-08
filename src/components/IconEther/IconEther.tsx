@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Particle from "../../utils/Particle";
 import preLoadImages from "../../utils/preLoadImages";
 import "./IconEther.css";
-import hexToRGBA from "../../utils/colorRGBA";
+import hexToRGBA from "../../utils/hex-rgba";
 
 interface Props {
   particlesShouldConnect?: boolean;
@@ -18,10 +18,9 @@ interface Props {
 
 /**
  * IconEther
- * Renders an Ethereum-inspired animated particle icon.
+ * Renders a component with moving particles
  * @param backgroundColor Background color in hexadecimal format.
  * @param particleColor Particle color in hexadecimal format.
- * @param particlesShouldConnect Determines if the particles should be connected.
  * @param renderImages Determines if the images should be rendered.
  * @param renderDots Determines if the dots should be rendered.
  * @param fullScreen Determines if the icon should be rendered in full screen.
@@ -31,9 +30,8 @@ interface Props {
  * @returns IconEther Component
  */
 function IconEther({
-  particlesShouldConnect = undefined,
-  renderImages = undefined,
-  renderDots = undefined,
+  renderImages = true,
+  renderDots = false,
   fullScreen = true,
   backgroundColor = "#282828",
   particleColor = "#33FF00",
@@ -41,154 +39,181 @@ function IconEther({
   width = "100%",
   icons = [],
 }: Props) {
-  if (!renderImages && !renderDots) renderImages = true;
-  if (height || width) fullScreen = false;
-  fullScreen = true;
-  height = width = "100%";
+  if (fullScreen) height = width = "100%";
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const [loadedImages, setLoadedImages] = React.useState<HTMLImageElement[]>(
+    []
+  );
+  const maxImgs = useRef(30);
+  const imgSize = useRef(20);
+  const maxDots = useRef(20);
+  const [imgParticles, setImgParticles] = useState<Particle[]>([]);
+  const [dotParticles, setDotParticles] = useState<Particle[]>([]);
+  const animationID = useRef<null | number>(null);
+
+  // 1. preflight init
+  // **** 1. loadimages()
+  const loadImages = async () => {
+    if (!renderImages) return;
+    const imgs = await preLoadImages(icons, particleColor);
+    setLoadedImages(imgs);
+  };
 
   useEffect(() => {
-    if (renderImages) preLoadImages(icons, "EtherIconsLoaded");
-  }, []);
+    loadImages();
+  }, [icons]);
 
+  // 2. init
+  // **** 1. setup particle parameters
+  // **** 2. generate particles
   useEffect(() => {
-    const canvas = document.querySelector("canvas")!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const ctx = canvas.getContext("2d")!;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let imgParticles: Particle[] = [];
-    let dotParticles: Particle[] = [];
-    let imgs: HTMLImageElement[] = []; // prefilled through preLoadImages()
-    const maxImgs = canvas.width <= 500 ? 10 : canvas.width <= 700 ? 18 : 30;
-    const imgSize = canvas.width <= 500 ? 20 : canvas.width <= 700 ? 27 : 30;
+    if (renderImages && !loadedImages) return;
 
-    const resizeHandler = () => {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-      init();
-    };
+    initialize(canvas);
+    animationID.current = requestAnimationFrame(animate);
+  }, [loadedImages, canvasRef.current]);
 
-    const init = () => {
-      ctx.clearRect(0, 0, innerWidth, innerHeight);
-      ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
-      ctx.fillRect(0, 0, innerWidth, innerHeight);
+  // 3. call loop
+  useEffect(() => {
+    if (!dotParticles) return;
+    if (!imgParticles && renderImages) return;
 
-      imgParticles = [];
-      dotParticles = [];
-      const dotParticleCount = 20;
-      const n = Math.min(imgs.length, maxImgs);
-      for (let i = 0; i < n + dotParticleCount; i++) {
-        let size = 1 + Math.random() * 2;
-        if (i < n) size = (Math.random() * imgSize) / 2.5 + imgSize;
-        const x = size * 2 + Math.random() * (innerWidth - size * 4);
-        const y = size * 2 + Math.random() * (innerHeight - size * 4);
-        const dX = (Math.random() * 2 - 1) / 10;
-        const dY = (Math.random() * 2 - 1) / 10;
-        const img = i < n ? imgs[i] : undefined;
+    animationID.current = requestAnimationFrame(animate);
+  }, [dotParticles, imgParticles]);
 
-        const particle = {
-          x: x,
-          y: y,
-          dX: dX,
-          dY: dY,
-          size:
-            size / (canvas.width <= 500 ? 1.2 : canvas.width <= 700 ? 1.1 : 1),
-          img: img,
-          color: particleColor,
-        };
-        if (i < n) imgParticles.push(new Particle(particle));
-        else dotParticles.push(new Particle(particle));
-      }
+  // 4. manipulate loop
+  // **** 1. reinit after window resize
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-      requestAnimationFrame(animate);
-    };
-
-    const connect = (particles: Particle[]) => {
-      let opacity = 1;
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a; b < particles.length; b++) {
-          const pA = particles[a]!;
-          const pB = particles[b]!;
-          const dx = pA.x - pB.x;
-          const dy = pA.y - pB.y;
-          const distance = dx * dx + dy * dy;
-
-          if (distance < (canvas.width * canvas.height) / 49) {
-            opacity = 1 - distance / 10000;
-            ctx.strokeStyle = hexToRGBA(particleColor, opacity);
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(pA.x, pA.y);
-            ctx.lineTo(pB.x, pB.y);
-            ctx.stroke();
-          }
-        }
-      }
-    };
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-      if (renderImages) animateImgParticles();
-      if (renderDots) animateDotParticles();
-      ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
-      ctx.fillRect(0, 0, innerWidth, innerHeight);
-    };
-
-    const animateImgParticles = () => {
-      const n = Math.min(imgParticles.length, maxImgs);
-      for (let i = 0; i < n; i++) {
-        imgParticles[i]!.update(ctx);
-      }
-      if (particlesShouldConnect) connect(imgParticles);
-    };
-
-    const animateDotParticles = () => {
-      for (let i = 0; i < dotParticles.length; i++) {
-        dotParticles[i]!.update(ctx);
-      }
-      if (particlesShouldConnect) connect(dotParticles);
-    };
-
-    document.addEventListener("EtherIconsLoaded", (e: Event) => {
-      imgs = (e as CustomEvent).detail;
-      init();
-    });
-
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("resize", () => initialize(canvas));
 
     return () => {
-      window.removeEventListener("resize", resizeHandler);
-      document.removeEventListener("EtherIconsLoaded", (e: Event) => {
-        imgs = (e as CustomEvent).detail;
-        init();
-      });
+      window.removeEventListener("resize", () => initialize(canvas));
     };
-  }, []);
+  }, [canvasRef.current]);
+
+  // **** 2. reinit after prop changes
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    if (renderImages && !loadedImages) return;
+
+    initialize(canvas);
+  }, [renderImages, renderDots, particleColor]);
+
+  const initialize = (canvas: HTMLCanvasElement) => {
+    if (animationID.current) cancelAnimationFrame(animationID.current);
+    const ctx = canvas.getContext("2d")!;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    maxImgs.current = canvas.width <= 500 ? 10 : canvas.width <= 700 ? 18 : 30;
+    imgSize.current = canvas.width <= 500 ? 20 : canvas.width <= 700 ? 27 : 30;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    maxImgs.current = Math.min(loadedImages.length, maxImgs.current);
+    if (renderImages) {
+      generateParticles(canvas, "imgs");
+    }
+    if (renderDots) {
+      generateParticles(canvas, "dots");
+    }
+  };
+
+  const generateParticles = (
+    canvas: HTMLCanvasElement,
+    type: "dots" | "imgs"
+  ) => {
+    let count = maxDots.current;
+    const particles: Particle[] = [];
+
+    if (type === "imgs") count = maxImgs.current;
+
+    for (let i = 0; i < count; i++) {
+      let size = 1 + Math.random() * 2;
+      if (type === "imgs")
+        size = (Math.random() * imgSize.current) / 2.5 + imgSize.current;
+      const x = size * 2 + Math.random() * (canvas.width - size * 4);
+      const y = size * 2 + Math.random() * (canvas.height - size * 4);
+      const dX = (Math.random() * 2 - 1) / 10;
+      const dY = (Math.random() * 2 - 1) / 10;
+      const img = type === "imgs" ? loadedImages[i] : undefined;
+
+      const particle = {
+        x: x,
+        y: y,
+        dX: dX,
+        dY: dY,
+        size:
+          size / (canvas.width <= 500 ? 1.2 : canvas.width <= 700 ? 1.1 : 1),
+        img: img,
+        color: particleColor,
+        flicker: true,
+      };
+
+      particles.push(new Particle(particle));
+    }
+
+    if (type === "imgs") setImgParticles(particles);
+    else setDotParticles(particles);
+  };
+
+  const animate = () => {
+    const canvas = canvasRef.current;
+
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d")!;
+    animationID.current = requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (renderImages) {
+      imgParticles.map((i) => i!.update(ctx));
+    }
+    if (renderDots) {
+      dotParticles.map((i) => i!.update(ctx));
+    }
+    ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
 
   return (
     <div
       className="IconEther_container"
       style={{
         position: fullScreen ? "initial" : "relative",
-        width: fullScreen ? "initial" : width,
-        height: fullScreen ? "initial" : height,
+        width: width,
+        height: height,
         background: backgroundColor,
       }}
     >
       <canvas
+        ref={canvasRef}
+        className="IconEther_canvas"
         style={{
+          position: fullScreen ? "absolute" : "relative",
+          zIndex: fullScreen ? -100 : 0,
           width: width,
           height: height,
           background: backgroundColor,
         }}
       ></canvas>
       <div
-        className="blurred-background"
+        className="IconEther_overlay"
         style={{
+          position: "absolute",
+          zIndex: fullScreen ? -100 : 0,
           width: width,
-          height: fullScreen ? "100%" : height,
+          height: height,
         }}
       ></div>
     </div>

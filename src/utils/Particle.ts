@@ -1,3 +1,8 @@
+/**
+ * Particle
+ * @description - circle canvas shape, provide <img /> for img entities on canvas
+ * @property {boolean} shouldFlicker - when true, circle shapes will flicker 20% of the time, does not affect img particles.
+ */
 export default class Particle {
   x: number;
   y: number;
@@ -9,6 +14,7 @@ export default class Particle {
   tStep: number;
   t: number;
   color: string;
+  shouldFlicker: boolean;
 
   constructor({
     x,
@@ -18,6 +24,7 @@ export default class Particle {
     size,
     img = undefined,
     color = "#33FF00",
+    flicker = false,
   }: {
     x: number;
     y: number;
@@ -26,6 +33,7 @@ export default class Particle {
     size: number;
     img?: HTMLImageElement | undefined;
     color?: string;
+    flicker?: boolean;
   }) {
     this.x = x;
     this.y = y;
@@ -37,6 +45,7 @@ export default class Particle {
     this.tStep = Math.random() * 0.01 + 0.01;
     this.t = Math.random() * 100;
     this.color = color;
+    this.shouldFlicker = flicker;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -55,23 +64,6 @@ export default class Particle {
       ctx.fill();
     }
   }
-  // TODO: a more interesting collision algo
-  avoidCollision(pB: Particle) {
-    const distance = ((pB.x - this.x) ** 2 + (pB.y - this.y) ** 2) ** 0.5;
-    if (distance <= (this.size * 3) / 4 + (pB.size * 3) / 4) {
-      this.flipX();
-      pB.flipX();
-      this.flipY();
-      pB.flipY();
-    }
-  }
-
-  flipX() {
-    this.dX *= -1;
-  }
-  flipY() {
-    this.dY *= -1;
-  }
 
   update(ctx: CanvasRenderingContext2D) {
     // random movement pattern
@@ -85,15 +77,9 @@ export default class Particle {
     this.x += this.dX;
     this.y += this.dY;
 
-    // figure 8 pattern
-    this.t += this.tStep;
-
-    // this.x =
-    //   ctx.canvas.width * 0.425 * Math.sin(this.t / 2) + ctx.canvas.width * 0.5;
-    // this.y =
-    //   ctx.canvas.height * 0.2 * Math.sin(this.t) + ctx.canvas.height * 0.5;
-
-    if (!this.img) this.flicker();
+    if (!this.img && this.shouldFlicker && Math.random() < 0.2) {
+      this.flicker();
+    }
     this.draw(ctx);
   }
 
