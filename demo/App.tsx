@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from "react";
 import "./App.css";
-import { IconEther } from "../components/IconEther/IconEther";
+import { IconEther } from "../src/components/IconEther/IconEther";
 
 const ETHERICONS = [
   "typescript",
