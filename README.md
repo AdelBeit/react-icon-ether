@@ -185,3 +185,7 @@ Then make sure to include only the necessary src files for distribution through 
   - Particles moving in figure 8 or 3d electron shells
 
 - Different bounding box collision behaviors
+
+## Demo
+
+<video src='./demo/assets/ether.mp4' width=180 />
