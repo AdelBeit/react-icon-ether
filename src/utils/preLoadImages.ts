@@ -33,12 +33,6 @@ export default async function preLoadImages(
   const URLs = iconNames.map((i) => simpleIconsCDN(i, color));
 
   return Promise.all(URLs.map(async (url) => loadImage(await url)));
-
-  //   Promise.all(imagePromises).then((images) => {
-  //     const event = new CustomEvent(customEventName, { detail: images });
-  //     document.dispatchEvent(event);
-  //   });
-  // }
 }
 
 function loadImage(url: string): Promise<HTMLImageElement> {
