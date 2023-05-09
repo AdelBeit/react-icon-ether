@@ -1,5 +1,11 @@
 # react-icon-ether
 
+## 1.0.2
+
+### Patch Changes
+
+- 3ad35b8: update readme
+
 ## 1.0.0
 
 ### Major Changes
