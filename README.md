@@ -188,4 +188,4 @@ Then make sure to include only the necessary src files for distribution through 
 
 ## Demo
 
-<video src='./demo/assets/ether.mp4' width=180 />
+<video src='https://user-images.githubusercontent.com/8835499/237002529-492bd0c5-142a-42bd-8596-7f0e887d74ff.mp4' width=180 />
