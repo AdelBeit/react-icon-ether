@@ -51,9 +51,9 @@ function App() {
     renderDots: true,
     fullScreen: true,
     backgroundColor: "#282828",
-    particleColor: "#33FF00",
-    height: "100%",
-    width: "100%",
+    particleColor: "#FFEE00",
+    height: "60%",
+    width: "60%",
     icons: ETHERICONS,
     dotSize: 2,
   };
@@ -64,9 +64,6 @@ function App() {
     defaults.backgroundColor
   );
   const [particleColor, setParticleColor] = useState(defaults.particleColor);
-  const [height, setHeight] = useState(defaults.height);
-  const [width, setWidth] = useState(defaults.width);
-  const [icons, setIcons] = useState(defaults.icons);
   const [dotSize, setDotSize] = useState<number | undefined>(defaults.dotSize);
   const [isDefaultProps, setIsDefaultProps] = useState(true);
 
@@ -107,10 +104,10 @@ function App() {
   return (
     <div className="App">
       <div
-        onMouseMove={handleMouseMove}
         style={{ top: position.y, left: position.x }}
         className="form-control absolute z-10 w-64"
         data-theme="cyberpunk"
+        onMouseMove={handleMouseMove}
       >
         <label className="label btn-group p-0">
           <span className="label-text btn-group gap-2 items-center">
@@ -226,7 +223,7 @@ function App() {
               type="range"
               min={2}
               max={10}
-              className={`bg-[#fe0] range range-sm self-center `}
+              className={`bg-[#fe0] range range-sm self-center`}
               value={dotSize}
               onChange={(e) => {
                 setDotSize(e.target.valueAsNumber);
@@ -235,37 +232,85 @@ function App() {
               }}
             />
           </label>
-          <label
-            className="input-group tooltip"
-            data-tip="feature disabled, see github issues"
-          >
-            <span className="label-text w-full">
-              <s className="">Image Size</s>
-            </span>
-          </label>
-
-          <label
-            className="input-group tooltip"
-            data-tip="feature disabled, see github issues"
-          >
-            <span className="label-text w-full">
-              <s className="">Icons List</s>
-            </span>
-          </label>
         </label>
       </div>
 
-      <IconEther
-        renderDots={renderDots}
-        renderImages={renderImages}
-        dotSize={dotSize}
-        fullScreen={fullScreen}
-        backgroundColor={backgroundColor}
-        particleColor={particleColor}
-        height={height}
-        width={width}
-        icons={icons}
-      />
+      {fullScreen && (
+        <div
+          className="flex flex-col bg-base-100 gap-1 p-1"
+          data-theme="cyberpunk"
+        >
+          <div className="card bg-base-content">
+            <div className="card-body">
+              <h2 className="card-title justify-center text-base-100">
+                Content
+              </h2>
+            </div>
+          </div>
+          <div className="card bg-base-content">
+            <div className="card-body">
+              <h2 className="card-title justify-center text-base-100">
+                Content
+              </h2>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col items-center w-fit gap-5 justify-center">
+        {!fullScreen && (
+          <div
+            className="flex flex-row justify-between w-[80%] bg-base-100 gap-1 p-1"
+            data-theme="cyberpunk"
+          >
+            <div className="card bg-base-content w-1/2">
+              <div className="card-body">
+                <h2 className="card-title justify-center text-base-100">
+                  Never gonna give you up
+                </h2>
+              </div>
+            </div>
+            <div className="card bg-base-content w-1/2">
+              <div className="card-body">
+                <h2 className="card-title justify-center text-base-100">
+                  Never gonna let you down
+                </h2>
+              </div>
+            </div>
+          </div>
+        )}
+        <IconEther
+          renderDots={renderDots}
+          renderImages={renderImages}
+          dotSize={dotSize}
+          fullScreen={fullScreen}
+          backgroundColor={backgroundColor}
+          particleColor={particleColor}
+          height={defaults.height}
+          width={defaults.width}
+          icons={defaults.icons}
+        />
+        {!fullScreen && (
+          <div
+            className="flex flex-row justify-between w-[80%] bg-base-100 gap-1 p-1"
+            data-theme="cyberpunk"
+          >
+            <div className="card bg-base-content w-1/2">
+              <div className="card-body">
+                <h2 className="card-title justify-center text-base-100">
+                  Never gonna run around
+                </h2>
+              </div>
+            </div>
+            <div className="card bg-base-content w-1/2">
+              <div className="card-body">
+                <h2 className="card-title justify-center text-base-100">
+                  and desert you
+                </h2>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -221,8 +221,8 @@ function IconEther({
         style={{
           position: fullScreen ? "absolute" : "relative",
           zIndex: fullScreen ? -100 : 0,
-          width: width,
-          height: height,
+          width: "100%",
+          height: "100%",
           background: backgroundColor,
         }}
       ></canvas>
@@ -231,8 +231,8 @@ function IconEther({
         style={{
           position: "absolute",
           zIndex: fullScreen ? -100 : 0,
-          width: width,
-          height: height,
+          width: "100%",
+          height: "100%",
         }}
       ></div>
     </div>
