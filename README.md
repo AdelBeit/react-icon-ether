@@ -37,6 +37,7 @@ Cyberpunk themed react component. Spawn particles randomly Particles can be imag
 
 ```sh
 npm i react-icon-ether
+yarn add react-icon-ether
 ```
 
 ## Usage
