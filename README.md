@@ -13,7 +13,6 @@
 [gh-shield]: https://img.shields.io/badge/-GitHub-black.svg?logo=github&colorB=555
 [gh-url]: https://github.com/adelbeit/react-icon-ether
 
-<br />
 <p align="center">
   <a href="https://github.com/adelbeit/react-icon-ether">
     <img src="https://raw.githubusercontent.com/AdelBeit/react-icon-ether/54fd760d827f31ce4211ba745b3aa47e148c02bf/demo/assets/ether.gif" alt="icon Ether" width="80%" >
