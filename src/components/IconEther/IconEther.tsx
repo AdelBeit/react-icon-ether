@@ -189,10 +189,10 @@ function IconEther({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (renderImages) {
-      imgParticles.map((i) => i!.update(ctx));
+      imgParticles.map((i: Particle) => i!.update(ctx));
     }
     if (renderDots) {
-      dotParticles.map((i) => i!.update(ctx));
+      dotParticles.map((i: Particle) => i!.update(ctx));
     }
     ctx.fillStyle = hexToRGBA(backgroundColor, 0.6);
     ctx.fillRect(0, 0, canvas.width, canvas.height);

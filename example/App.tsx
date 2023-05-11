@@ -1,6 +1,7 @@
 import React, { MouseEvent, useState } from "react";
 import "./App.css";
 import { IconEther } from "../src/components/IconEther/IconEther";
+import { ClockApp } from '../src/ClockButton';
 
 const ETHERICONS = [
   "typescript",
