@@ -13,7 +13,6 @@
 [gh-shield]: https://img.shields.io/badge/-GitHub-black.svg?logo=github&colorB=555
 [gh-url]: https://github.com/adelbeit/react-icon-ether
 
-<br />
 <p align="center">
   <a href="https://github.com/adelbeit/react-icon-ether">
     <img src="https://raw.githubusercontent.com/AdelBeit/react-icon-ether/54fd760d827f31ce4211ba745b3aa47e148c02bf/demo/assets/ether.gif" alt="icon Ether" width="80%" >
@@ -73,16 +72,16 @@ export default App;
 | width?           | "100%"         | The width of the icon, in pixels or as a percentage.      |
 | dotSize?\*       | 2              | Dot particle size, used in tandem with Math.random().     |
 
-###### \* Icons array accepts valid simple-icons icon names. To use non simple-icon icons you must create a local folder
+\* Icons array accepts valid simple-icons icon names. To use non simple-icon icons you must create a local folder
 
 ```
-1. On the top level of your project folder, reacreate this route: "./public/fallback_icons/\*\*.svg"
+1. On the top level of your project folder, reacreate this route: "./public/fallback_icons/**.svg"
 2. Make sure your local images are in svg format
 3. Pass in your local image filename into the icons array.
    i.e. image: mylocalimage.svg icons: ["mylocalimage"]
 ```
 
-###### \*\* Image size and particle count are not customizable by design. The sizes and count have been set with performance in mind and to avoid overcrowding the foreground. If you want to change image size or image count you will need to clone this repository and copy over the sources and customize them to your liking.
+\*\* Image size and particle count are not customizable by design. The sizes and count have been set with performance in mind and to avoid overcrowding the foreground. If you want to change image size or image count you will need to clone this repository and copy over the sources and customize them to your liking.
 
 ## Sample Usage
 
