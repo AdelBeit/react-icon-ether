@@ -134,9 +134,8 @@ function App() {
             Settings
           </span>
           <button
-            className={`btn ${
-              isDefaultProps && "btn-disabled"
-            } btn-ghost btn-xs btn-square p-0 m-0`}
+            className={`btn ${isDefaultProps && "btn-disabled"
+              } btn-ghost btn-xs btn-square p-0 m-0`}
             onClick={() => restoreDefaults()}
           >
             <svg
@@ -256,8 +255,21 @@ function App() {
           </div>
         </div>
       )}
-      <div className="flex flex-col items-center w-fit gap-5 justify-center">
-        {!fullScreen && (
+      {fullScreen && (
+        <IconEther
+          renderDots={renderDots}
+          renderImages={renderImages}
+          dotSize={dotSize}
+          fullScreen={fullScreen}
+          backgroundColor={backgroundColor}
+          particleColor={particleColor}
+          height={defaults.height}
+          width={defaults.width}
+          icons={defaults.icons}
+        />
+      )}
+      {!fullScreen && (
+        <div className="flex flex-col items-center w-fit gap-5 justify-center">
           <div
             className="flex flex-row justify-between w-[80%] bg-base-100 gap-1 p-1"
             data-theme="cyberpunk"
@@ -277,19 +289,17 @@ function App() {
               </div>
             </div>
           </div>
-        )}
-        <IconEther
-          renderDots={renderDots}
-          renderImages={renderImages}
-          dotSize={dotSize}
-          fullScreen={fullScreen}
-          backgroundColor={backgroundColor}
-          particleColor={particleColor}
-          height={defaults.height}
-          width={defaults.width}
-          icons={defaults.icons}
-        />
-        {!fullScreen && (
+          <IconEther
+            renderDots={renderDots}
+            renderImages={renderImages}
+            dotSize={dotSize}
+            fullScreen={fullScreen}
+            backgroundColor={backgroundColor}
+            particleColor={particleColor}
+            height={defaults.height}
+            width={defaults.width}
+            icons={defaults.icons}
+          />
           <div
             className="flex flex-row justify-between w-[80%] bg-base-100 gap-1 p-1"
             data-theme="cyberpunk"
@@ -309,8 +319,8 @@ function App() {
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

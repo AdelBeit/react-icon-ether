@@ -209,7 +209,7 @@ function IconEther({
     <div
       className="IconEther_container"
       style={{
-        position: fullScreen ? "initial" : "relative",
+        position: fullScreen ? "static" : "relative",
         width: width,
         height: height,
         background: backgroundColor,
@@ -221,8 +221,10 @@ function IconEther({
         style={{
           position: fullScreen ? "absolute" : "relative",
           zIndex: fullScreen ? -100 : 0,
-          width: "100%",
-          height: "100%",
+          width: fullScreen ? width : "100%",
+          height: fullScreen ? height : "100%",
+          top: fullScreen ? 0 : 'initial',
+          left: fullScreen ? 0 : 'initial',
           background: backgroundColor,
         }}
       ></canvas>
@@ -231,8 +233,10 @@ function IconEther({
         style={{
           position: "absolute",
           zIndex: fullScreen ? -100 : 0,
-          width: "100%",
-          height: "100%",
+          top: fullScreen ? 0 : 'initial',
+          left: fullScreen ? 0 : 'initial',
+          width: fullScreen ? width : "100%",
+          height: fullScreen ? height : "100%",
         }}
       ></div>
     </div>
