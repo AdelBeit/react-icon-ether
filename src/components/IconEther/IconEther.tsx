@@ -209,7 +209,7 @@ function IconEther({
     <div
       className="IconEther_container"
       style={{
-        position: fullScreen ? "static" : "relative",
+        position: fullScreen ? "absolute" : "relative",
         width: width,
         height: height,
         background: backgroundColor,
