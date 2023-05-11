@@ -233,7 +233,7 @@ function IconEther({
         style={{
           position: "absolute",
           zIndex: fullScreen ? -100 : 0,
-          top: fullScreen ? 0 : 'initial',
+          top: fullScreen ? "-10px" : 'initial',
           left: fullScreen ? 0 : 'initial',
           width: fullScreen ? width : "100%",
           height: fullScreen ? height : "100%",
