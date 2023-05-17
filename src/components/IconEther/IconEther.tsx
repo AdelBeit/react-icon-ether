@@ -36,6 +36,7 @@ function IconEther({
   dotSize = 2,
   flickerDots = true
 }: Props) {
+  if (flickerDots) renderDots = true;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [loadedImages, setLoadedImages] = React.useState<HTMLImageElement[]>(
     []
