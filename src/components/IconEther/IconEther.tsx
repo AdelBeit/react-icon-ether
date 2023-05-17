@@ -65,8 +65,13 @@ function IconEther({
     if (!imgsLoaded()) return;
 
     initialize(canvas);
-    animationID.current = requestAnimationFrame(animate);
   }, [loadedImages, canvasRef.current]);
+
+  // **** 3. call loop
+  useEffect(() => {
+    if (!dotParticles || !imgsLoaded()) return;
+    animationID.current = requestAnimationFrame(animate);
+  }, [dotParticles, imgParticles]);
 
   // 3. manipulate loop
   // **** 1. reinit after window resize
@@ -143,7 +148,6 @@ function IconEther({
 
   const animate = () => {
     const canvas = canvasRef.current;
-
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d")!;
@@ -168,12 +172,12 @@ function IconEther({
   const imgsLoaded = () => renderImages && loadedImages.length > 0;
 
   return (
-    <div>
+    <>
       <canvas
         ref={canvasRef}
         className="IconEther_canvas"
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: 0,
           inset: 0,
           background: backgroundColor,
@@ -182,13 +186,13 @@ function IconEther({
       <div
         className="IconEther_overlay"
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: 0,
           inset: 0,
           top: "-10px",
         }}
       ></div>
-    </div>
+    </>
   );
 }
 

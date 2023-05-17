@@ -18,3 +18,10 @@ public/main.css
 /.vscode
 !.vscode/extensions.json
 .idea
+
+
+# temp
+index.html
+postcss.config.js
+tailwind.config.js
+vite.config.ts
