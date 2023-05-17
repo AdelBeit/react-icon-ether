@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState } from "react";
 import "./App.css";
 import { IconEther } from "../src/components/IconEther/IconEther";
-import { ClockApp } from '../src/ClockButton';
+// import { ClockApp } from '../src/ClockButton';
 
 const ETHERICONS = [
   "typescript",
@@ -261,11 +261,8 @@ function App() {
           renderDots={renderDots}
           renderImages={renderImages}
           dotSize={dotSize}
-          fullScreen={fullScreen}
           backgroundColor={backgroundColor}
           particleColor={particleColor}
-          height={defaults.height}
-          width={defaults.width}
           icons={defaults.icons}
         />
       )}
@@ -294,11 +291,8 @@ function App() {
             renderDots={renderDots}
             renderImages={renderImages}
             dotSize={dotSize}
-            fullScreen={fullScreen}
             backgroundColor={backgroundColor}
             particleColor={particleColor}
-            height={defaults.height}
-            width={defaults.width}
             icons={defaults.icons}
           />
           <div

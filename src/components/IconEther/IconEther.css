@@ -20,7 +20,8 @@
   background-position: center;
   transform: translateY(0);
   animation: CTR-Monitor 0.2s linear infinite;
-} .IconEther_container {
+}
+.IconEther_container {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

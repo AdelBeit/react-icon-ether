@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Particle from "../../utils/Particle";
 import preLoadImages from "../../utils/preLoadImages";
-import "./IconEther.css";
+// import "./IconEther.css";
 import hexToRGBA from "../../utils/hexToRGBA";
 
 interface Props {
@@ -10,9 +10,6 @@ interface Props {
   renderDots?: boolean;
   backgroundColor?: string;
   particleColor?: string;
-  height?: number | string;
-  width?: number | string;
-  fullScreen?: boolean;
   icons: string[];
   dotSize?: number;
 }
@@ -24,9 +21,6 @@ interface Props {
  * @param particleColor Particle color in hexadecimal hexadecimal string format, i.e. "#ffffff"
  * @param renderImages Determines if the images should be rendered.
  * @param renderDots Determines if the dots should be rendered.
- * @param fullScreen Determines if the icon should be rendered in full screen.
- * @param height The height of the icon, in pixels or as a percentage.
- * @param width The width of the icon, in pixels or as a percentage.
  * @param icons The name of icons to render.
  * @param dotSize Dot particle size
  * @returns IconEther Component
@@ -36,13 +30,9 @@ function IconEther({
   particleColor = "#33FF00",
   renderImages = true,
   renderDots = false,
-  fullScreen = true,
-  height = "100%",
-  width = "100%",
   icons = [],
   dotSize = 2,
 }: Props) {
-  if (fullScreen) height = width = "100%";
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [loadedImages, setLoadedImages] = React.useState<HTMLImageElement[]>(
     []
@@ -72,22 +62,13 @@ function IconEther({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (imgsLoaded()) return;
+    if (!imgsLoaded()) return;
 
     initialize(canvas);
     animationID.current = requestAnimationFrame(animate);
   }, [loadedImages, canvasRef.current]);
 
-  // 3. call loop
-  useEffect(() => {
-    if (!dotParticles) return;
-    if (!imgParticles && renderImages) return;
-
-    clearAnimations();
-    animationID.current = requestAnimationFrame(animate);
-  }, [dotParticles, imgParticles]);
-
-  // 4. manipulate loop
+  // 3. manipulate loop
   // **** 1. reinit after window resize
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -99,25 +80,6 @@ function IconEther({
       window.removeEventListener("resize", () => initialize(canvas));
     };
   }, [canvasRef.current]);
-
-  // **** 2. reinit after prop changes
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (imgsLoaded()) return;
-
-    initialize(canvas);
-  }, [renderImages, renderDots]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (imgsLoaded()) return;
-
-    generateParticles(canvas, "dots");
-  }, [particleColor, dotSize]);
 
   const initialize = (canvas: HTMLCanvasElement) => {
     clearAnimations();
@@ -203,28 +165,17 @@ function IconEther({
     if (animationID.current) cancelAnimationFrame(animationID.current);
   };
 
-  const imgsLoaded = () => renderImages && loadedImages.length < 1;
+  const imgsLoaded = () => renderImages && loadedImages.length > 0;
 
   return (
-    <div
-      className="IconEther_container"
-      style={{
-        position: fullScreen ? "absolute" : "relative",
-        width: width,
-        height: height,
-        background: backgroundColor,
-      }}
-    >
+    <div>
       <canvas
         ref={canvasRef}
         className="IconEther_canvas"
         style={{
-          position: fullScreen ? "absolute" : "relative",
-          zIndex: fullScreen ? -100 : 0,
-          width: fullScreen ? width : "100%",
-          height: fullScreen ? height : "100%",
-          top: fullScreen ? 0 : 'initial',
-          left: fullScreen ? 0 : 'initial',
+          position: "absolute",
+          zIndex: -100,
+          inset: 0,
           background: backgroundColor,
         }}
       ></canvas>
@@ -232,11 +183,9 @@ function IconEther({
         className="IconEther_overlay"
         style={{
           position: "absolute",
-          zIndex: fullScreen ? -100 : 0,
-          top: fullScreen ? "-10px" : 'initial',
-          left: fullScreen ? 0 : 'initial',
-          width: fullScreen ? width : "100%",
-          height: fullScreen ? height : "100%",
+          zIndex: -100,
+          inset: 0,
+          top: "-10px",
         }}
       ></div>
     </div>

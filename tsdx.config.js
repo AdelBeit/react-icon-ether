@@ -11,26 +11,26 @@ module.exports = {
     config.plugins.push(
       postcss({
         modules: true,
-        plugins: [
-          autoprefixer(),
-          cssnano({
-            preset: 'default',
-          }),
-          tailwindcss({
-            purge: ['./src/**/*.tsx'],
-            darkMode: false,
-            theme: {
-              extend: {},
-            },
-            variants: {
-              extend: {},
-            },
-            plugins: [],
-          }),
-        ],
-        inject: true,
+        // plugins: [
+        //   autoprefixer(),
+        //   cssnano({
+        //     preset: 'default',
+        //   }),
+        //   tailwindcss({
+        //     purge: ['./src/**/*.tsx'],
+        //     darkMode: false,
+        //     theme: {
+        //       extend: {},
+        //     },
+        //     variants: {
+        //       extend: {},
+        //     },
+        //     plugins: [],
+        //   }),
+        // ],
+        // inject: true,
 
-        extract: !!options.writeMeta,
+        // extract: !!options.writeMeta,
       })
     );
     return config;
