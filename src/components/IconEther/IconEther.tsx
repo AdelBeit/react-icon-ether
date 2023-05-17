@@ -174,7 +174,7 @@ function IconEther({
         className="IconEther_canvas"
         style={{
           position: "absolute",
-          zIndex: -100,
+          zIndex: 0,
           inset: 0,
           background: backgroundColor,
         }}
@@ -183,7 +183,7 @@ function IconEther({
         className="IconEther_overlay"
         style={{
           position: "absolute",
-          zIndex: -100,
+          zIndex: 0,
           inset: 0,
           top: "-10px",
         }}
