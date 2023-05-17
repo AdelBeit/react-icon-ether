@@ -1,6 +1,6 @@
 # React Icon Ether
 
-[![license-shield]][license-url] [![linkedin-shield]][linkedin-url] ![size-url] ![size-url2] [![npm-v]][npm-url] [![gh-shield]][gh-url]
+[![license-shield]][license-url] [![linkedin-shield]][linkedin-url] ![size-url] ![size-url2]![npm-v]][npm-url]![gh-shield]][gh-url]
 
 [license-shield]: https://img.shields.io/github/license/adelbeit/react-icon-ether.svg
 [license-url]: /LICENSE
@@ -42,9 +42,9 @@ yarn add react-icon-ether
 ## Usage
 
 ```tsx
-import React from "react";
+import React from 'react';
 
-const icons = ["typescript", "javascript", "nextdotjs", "react"];
+const icons = ['typescript', 'javascript', 'nextdotjs', 'react'];
 
 const App = () => {
   return (
@@ -60,17 +60,15 @@ export default App;
 
 ## Props
 
-| Name             | Default Values | Description                                               |
-| ---------------- | -------------- | --------------------------------------------------------- |
-| icons\*          | [ ]            | Array of simple-icon icon names to render.                |
-| backgroundColor? | "#282828"      | Background color in hexadecimal string format.            |
-| particleColor?   | "#33FF00"      | Particle color in hexadecimal hexadecimal string format.  |
-| renderImages?    | true           | Determines if the images should be rendered.              |
-| renderDots?      | false          | Determines if the dots should be rendered.                |
-| fullScreen?      | true           | Determines if the icon should be rendered in full screen. |
-| height?          | "100%"         | The height of the icon, in pixels or as a percentage.     |
-| width?           | "100%"         | The width of the icon, in pixels or as a percentage.      |
-| dotSize?\*       | 2              | Dot particle size, used in tandem with Math.random().     |
+| Name             | Default Values                                             | Description                                              |
+| ---------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| icons\*          | [ "typescript","javascript","nextdotjs","react","vercel" ] | Array of simple-icon icon names to render.               |
+| backgroundColor? | "#282828"                                                  | Background color in hexadecimal string format.           |
+| particleColor?   | "#33FF00"                                                  | Particle color in hexadecimal hexadecimal string format. |
+| renderImages?    | true                                                       | Determines if the images should be rendered.             |
+| renderDots?      | false                                                      | Determines if the dots should be rendered.               |
+| flickerDots?     | true                                                       | Determines if the dots should flicker.                   |
+| dotSize?\*       | 2                                                          | Dot particle size, used in tandem with Math.random().    |
 
 \* Icons array accepts valid simple-icons icon names. To use non simple-icon icons you must create a local folder
 
@@ -85,7 +83,7 @@ export default App;
 
 ## Sample Usage
 
-The [demo folder](https://github.com/AdelBeit/react-icon-ether/tree/54fd760d827f31ce4211ba745b3aa47e148c02bf/demo) is a sample react app that uses it. Just clone this repo and run
+The [example folder](https://github.com/AdelBeit/react-icon-ether/tree/54fd760d827f31ce4211ba745b3aa47e148c02bf/demo) is a sample react app that uses it. Just clone this repo and run
 
 ```sh
 yarn && yarn dev
@@ -114,7 +112,7 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   const img = new Image(30, 30);
   return new Promise((res, rej) => {
     img.onload = () => res(img);
-    img.onerror = () => rej(new Error("Failed to load " + url));
+    img.onerror = () => rej(new Error('Failed to load ' + url));
     img.src = url;
   });
 }
@@ -143,8 +141,8 @@ function loadImage(url: string): Promise<HTMLImageElement> {
 
 ```js
 const response = await fetch(url);
-const contentType = response.headers.get("content-type");
-const isImage = !!contentType?.startsWith("image/");
+const contentType = response.headers.get('content-type');
+const isImage = !!contentType?.startsWith('image/');
 ```
 
 ### 4. Publishing to npm, adding typescript and other modules
@@ -184,7 +182,3 @@ Then make sure to include only the necessary src files for distribution through 
   - Particles moving in figure 8 or 3d electron shells
 
 - Different bounding box collision behaviors
-
-## Demo
-
-<video src='https://user-images.githubusercontent.com/8835499/237002529-492bd0c5-142a-42bd-8596-7f0e887d74ff.mp4' width=180 />

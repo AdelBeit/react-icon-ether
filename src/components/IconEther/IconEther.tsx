@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Particle from "../../utils/Particle";
 import preLoadImages from "../../utils/preLoadImages";
-// import "./IconEther.css";
+import styles from "./IconEther.module.css";
 import hexToRGBA from "../../utils/hexToRGBA";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   particleColor?: string;
   icons: string[];
   dotSize?: number;
+  flickerDots?: boolean;
 }
 
 /**
@@ -23,6 +24,7 @@ interface Props {
  * @param renderDots Determines if the dots should be rendered.
  * @param icons The name of icons to render.
  * @param dotSize Dot particle size
+ * @param flickerDots Determines if the dots should flicker
  * @returns IconEther Component
  */
 function IconEther({
@@ -30,8 +32,9 @@ function IconEther({
   particleColor = "#33FF00",
   renderImages = true,
   renderDots = false,
-  icons = [],
+  icons = ["typescript", "javascript", "nextdotjs", "react", "vercel"],
   dotSize = 2,
+  flickerDots = true
 }: Props) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [loadedImages, setLoadedImages] = React.useState<HTMLImageElement[]>(
@@ -54,7 +57,7 @@ function IconEther({
 
   useEffect(() => {
     loadImages();
-  }, [icons]);
+  }, []);
 
   // 2. init
   // **** 1. setup particle parameters
@@ -65,8 +68,13 @@ function IconEther({
     if (!imgsLoaded()) return;
 
     initialize(canvas);
-    animationID.current = requestAnimationFrame(animate);
   }, [loadedImages, canvasRef.current]);
+
+  // **** 3. call loop
+  useEffect(() => {
+    if (!dotParticles || !imgsLoaded()) return;
+    animationID.current = requestAnimationFrame(animate);
+  }, [dotParticles, imgParticles]);
 
   // 3. manipulate loop
   // **** 1. reinit after window resize
@@ -131,7 +139,7 @@ function IconEther({
           size / (canvas.width <= 500 ? 1.2 : canvas.width <= 700 ? 1.1 : 1),
         img: img,
         color: particleColor,
-        flicker: true,
+        flicker: flickerDots,
       };
 
       particles.push(new Particle(particle));
@@ -143,7 +151,6 @@ function IconEther({
 
   const animate = () => {
     const canvas = canvasRef.current;
-
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d")!;
@@ -168,27 +175,27 @@ function IconEther({
   const imgsLoaded = () => renderImages && loadedImages.length > 0;
 
   return (
-    <div>
+    <>
       <canvas
         ref={canvasRef}
-        className="IconEther_canvas"
+        className={styles.IconEther_canvas}
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: 0,
           inset: 0,
           background: backgroundColor,
         }}
       ></canvas>
       <div
-        className="IconEther_overlay"
+        className={styles.IconEther_overlay}
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: 0,
           inset: 0,
           top: "-10px",
         }}
       ></div>
-    </div>
+    </>
   );
 }
 

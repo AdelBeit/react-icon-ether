@@ -1,0 +1,28 @@
+.IconEther_canvas,
+.IconEther_overlay {
+  width: 100vw;
+  height: 100vh;
+  padding-right: calc(100vw - 100%);
+}
+.IconEther_overlay {
+  right: 0;
+  background: linear-gradient(rgba(57, 251, 9, 0.02), rgba(51, 255, 0, 0.005)),
+    repeating-linear-gradient(
+      0,
+      transparent,
+      transparent 2px,
+      rgba(40, 40, 40, 0.4) 5px,
+      rgba(40, 40, 40, 0.4) 5px
+    );
+  background-size: cover;
+  background-position: center;
+  transform: translateY(0);
+  animation: CTR-Monitor 0.2s linear infinite;
+}
+
+/* animations */
+@keyframes CTR-Monitor {
+  to {
+    transform: translateY(10px);
+  }
+}
