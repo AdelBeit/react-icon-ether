@@ -1,1 +1,1 @@
-export * from "./src/components/IconEther/IconEther";
+export * from "./src/components/";

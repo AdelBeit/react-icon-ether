@@ -35,6 +35,9 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "typeRoots": ["./dist/index.d.ts", "node_modules/@types"]
+    "typeRoots": ["./dist/index.d.ts", "node_modules/@types"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

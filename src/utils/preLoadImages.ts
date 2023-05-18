@@ -1,4 +1,4 @@
-import { urlExists } from "./urlExists";
+import { urlExists } from "./index";
 
 /**
  * Returns a URL string to the Simple Icons (SI) CDN with the given icon name and color.
@@ -26,13 +26,13 @@ export async function simpleIconsCDN(icon: string, color: string = "#33FF00") {
  * @param iconNames - an array of icon names to be preloaded
  * @returns an array of Image objects
  */
-export default async function preLoadImages(
+export async function preLoadImages(
   iconNames: string[],
   color: string = "#33ff00"
 ) {
-  const URLs = iconNames.map((i) => simpleIconsCDN(i, color));
+  const URLs = iconNames.map(i => simpleIconsCDN(i, color));
 
-  return Promise.all(URLs.map(async (url) => loadImage(await url)));
+  return Promise.all(URLs.map(async url => loadImage(await url)));
 }
 
 function loadImage(url: string): Promise<HTMLImageElement> {

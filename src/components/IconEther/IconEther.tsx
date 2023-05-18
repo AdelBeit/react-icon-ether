@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Particle from "../../utils/Particle";
-import preLoadImages from "../../utils/preLoadImages";
+import { preLoadImages, Particle, hexToRGBA } from "../../utils";
 import styles from "./IconEther.module.css";
-import hexToRGBA from "../../utils/hexToRGBA";
 
 interface Props {
   particlesShouldConnect?: boolean;

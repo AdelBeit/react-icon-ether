@@ -6,9 +6,9 @@
  */
 async function urlExists(url: string) {
   const response = await fetch(url);
-  const contentType = response.headers.get("content-type");
-  const isImage = !!contentType?.startsWith("image/");
+  const contentType = response.headers.get('content-type');
+  const isImage = !!contentType?.startsWith('image/');
   return isImage;
 }
 
-export { urlExists };
+export default urlExists;
