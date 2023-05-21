@@ -1,4 +1,4 @@
-import { urlExists } from "./index";
+import urlExists from "./urlExists";
 
 /**
  * Returns a URL string to the Simple Icons (SI) CDN with the given icon name and color.
