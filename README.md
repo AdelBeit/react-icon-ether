@@ -1,6 +1,6 @@
 # React Icon Ether
 
-[![license-shield]][license-url] [![linkedin-shield]][linkedin-url] ![size-url] ![size-url2]![npm-v]][npm-url]![gh-shield]][gh-url]
+[![license-shield]][license-url] [![linkedin-shield]][linkedin-url] ![size-url] ![size-url2] [![npm-v]][npm-url] [![gh-shield]][gh-url]
 
 [license-shield]: https://img.shields.io/github/license/adelbeit/react-icon-ether.svg
 [license-url]: /LICENSE
