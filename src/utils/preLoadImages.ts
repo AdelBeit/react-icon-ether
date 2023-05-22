@@ -1,6 +1,7 @@
-import { urlExists } from "./index";
+// import { urlExists } from "./index";
 
 /**
+ * TODO: fix url exists 
  * Returns a URL string to the Simple Icons (SI) CDN with the given icon name and color.
  * Icon name must match SI icon name, if name doesn't match SI or doesn't exist on SI, the fallback folder is checked for icon with exact name.
  * Fallback icons folder must be structure like so: [project root dir]/public/fallback_icons/*.svg
@@ -11,10 +12,11 @@ import { urlExists } from "./index";
 export async function simpleIconsCDN(icon: string, color: string = "#33FF00") {
   color = color.replace("#", "");
   const simpleIconsCDN = `https://cdn.simpleicons.org/${icon}/${color}`;
-  if (await urlExists(simpleIconsCDN)) return simpleIconsCDN;
+  return simpleIconsCDN;
+  // if (await urlExists(simpleIconsCDN)) return simpleIconsCDN;
 
-  const fallbackURL = `./fallback_icons/${icon}.svg`;
-  if (await urlExists(fallbackURL)) return fallbackURL;
+  // const fallbackURL = `./fallback_icons/${icon}.svg`;
+  // if (await urlExists(fallbackURL)) return fallbackURL;
 
   const event = new CustomEvent("IconLoadFailed", { detail: icon });
   document.dispatchEvent(event);
