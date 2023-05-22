@@ -42,9 +42,9 @@ yarn add react-icon-ether
 ## Usage
 
 ```tsx
-import React from 'react';
+import React from "react";
 
-const icons = ['typescript', 'javascript', 'nextdotjs', 'react'];
+const icons = ["typescript", "javascript", "nextdotjs", "react"];
 
 const App = () => {
   return (
@@ -112,7 +112,7 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   const img = new Image(30, 30);
   return new Promise((res, rej) => {
     img.onload = () => res(img);
-    img.onerror = () => rej(new Error('Failed to load ' + url));
+    img.onerror = () => rej(new Error("Failed to load " + url));
     img.src = url;
   });
 }
@@ -141,8 +141,8 @@ function loadImage(url: string): Promise<HTMLImageElement> {
 
 ```js
 const response = await fetch(url);
-const contentType = response.headers.get('content-type');
-const isImage = !!contentType?.startsWith('image/');
+const contentType = response.headers.get("content-type");
+const isImage = !!contentType?.startsWith("image/");
 ```
 
 ### 4. Publishing to npm, adding typescript and other modules
