@@ -71,18 +71,14 @@ function App() {
         className="flex flex-col z-10 bg-white gap-1 p-1"
         data-theme="cyberpunk"
       >
-        {[...Array(30).fill(0)].map(i =>
-          <div key={i} className="card bg-primary">
+        {[...Array(30).fill(0)].map((i, _i) => (
+          <div key={_i} className="card bg-primary">
             <div className="card-body">
-              <h2 className="card-title justify-center text-secondary">
-                Content
-              </h2>
+              <h2 className="card-title justify-center text-black">Content</h2>
             </div>
           </div>
-        )}
-
+        ))}
       </div>
-
     </div>
   );
 }
