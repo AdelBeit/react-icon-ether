@@ -8,25 +8,26 @@ const ETHERICONS = [
   "nextdotjs",
   "react",
   "nodedotjs",
-  "express",
   "socketdotio",
   "html5",
   "css3",
-  "git",
   "github",
   "figma",
   "yarn",
   "npm",
+  "auth0",
   "docker",
-  "amazonaws",
-  "graphql",
   "netlify",
   "vercel",
-  "svelte",
+  "amazonaws",
+  "d3dotjs",
   "python",
+  "svelte",
+  "express",
   "mysql",
   "digitalocean",
   "mongodb",
+  "git",
   "postgresql",
   "microsoftazure",
   "googlecloud",
@@ -42,7 +43,6 @@ const ETHERICONS = [
   "mui",
   "jira",
   "arduino",
-  "php",
 ];
 
 function App() {
@@ -54,6 +54,7 @@ function App() {
     icons: ETHERICONS,
     dotSize: 2,
     flickerDots: true,
+    localPath: "/example/assets/icons/",
   };
 
   return (
@@ -66,6 +67,7 @@ function App() {
         particleColor={defaults.particleColor}
         icons={defaults.icons}
         flickerDots={defaults.flickerDots}
+        localPath={defaults.localPath}
       />
       <div
         className="flex flex-col z-10 bg-white gap-1 p-1"

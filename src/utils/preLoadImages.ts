@@ -7,33 +7,41 @@
  * Fallback icons folder must be structure like so: [project root dir]/public/fallback_icons/*.svg
  * @param icon - the name of the icon to be fetched (must match simpleicons name)
  * @param color - the hex color of the icon
+ * @param localPath Path to locally stored Icons. When provided, this disables SimpleIcons CDN fetching
  * @returns a URL string to the Simple Icons CDN or a local path
  */
-export async function simpleIconsCDN(icon: string, color: string = "#33FF00") {
+export async function simpleIconsCDN(
+  icon: string,
+  color: string = "#33FF00",
+  localPath: string = ""
+) {
   color = color.replace("#", "");
   const simpleIconsCDN = `https://cdn.simpleicons.org/${icon}/${color}`;
-  return simpleIconsCDN;
-  // if (await urlExists(simpleIconsCDN)) return simpleIconsCDN;
-
-  // const fallbackURL = `./fallback_icons/${icon}.svg`;
-  // if (await urlExists(fallbackURL)) return fallbackURL;
-
-  const event = new CustomEvent("IconLoadFailed", { detail: icon });
-  document.dispatchEvent(event);
-  return "";
+  let path = simpleIconsCDN;
+  if (localPath.length > 0) {
+    const endsWithSlash = /\/$/;
+    const endsWithSVG = /\.svg$/;
+    path =
+      localPath.replace(endsWithSlash, "") +
+      "/" +
+      icon.replace(endsWithSVG, ".svg") +
+      ".svg";
+  }
+  return path;
 }
 
 /**
  * Preloads images by creating Image objects
  * @param iconNames - an array of icon names to be preloaded
+ * @param localPath Path to locally stored Icons. When provided, this disables SimpleIcons CDN fetching
  * @returns an array of Image objects
  */
 export async function preLoadImages(
   iconNames: string[],
-  color: string = "#33ff00"
+  color: string = "",
+  localPath: string = ""
 ) {
-  const URLs = iconNames.map(i => simpleIconsCDN(i, color));
-
+  const URLs = iconNames.map(name => simpleIconsCDN(name, color, localPath));
   return Promise.all(URLs.map(async url => loadImage(await url)));
 }
 

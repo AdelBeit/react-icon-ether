@@ -11,6 +11,7 @@ interface Props {
   icons: string[];
   dotSize?: number;
   flickerDots?: boolean;
+  localPath?: string;
 }
 
 /**
@@ -23,6 +24,7 @@ interface Props {
  * @param icons The name of icons to render.
  * @param dotSize Dot particle size
  * @param flickerDots Determines if the dots should flicker
+ * @param localPath Path to locally stored Icons. When provided, this disables SimpleIcons CDN fetching
  * @returns IconEther Component
  */
 function IconEther({
@@ -32,7 +34,8 @@ function IconEther({
   renderDots = false,
   icons = ["typescript", "javascript", "nextdotjs", "react", "vercel"],
   dotSize = 2,
-  flickerDots = true
+  flickerDots = true,
+  localPath,
 }: Props) {
   if (flickerDots) renderDots = true;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -50,7 +53,7 @@ function IconEther({
   // **** 1. loadimages()
   const loadImages = async () => {
     if (!renderImages) return;
-    const imgs = await preLoadImages(icons, particleColor);
+    const imgs = await preLoadImages(icons, particleColor, localPath);
     setLoadedImages(imgs);
   };
 

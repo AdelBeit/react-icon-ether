@@ -60,15 +60,16 @@ export default App;
 
 ## Props
 
-| Name             | Default Values                                             | Description                                              |
-| ---------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
-| icons\*          | [ "typescript","javascript","nextdotjs","react","vercel" ] | Array of simple-icon icon names to render.               |
-| backgroundColor? | "#282828"                                                  | Background color in hexadecimal string format.           |
-| particleColor?   | "#33FF00"                                                  | Particle color in hexadecimal hexadecimal string format. |
-| renderImages?    | true                                                       | Determines if the images should be rendered.             |
-| renderDots?      | false                                                      | Determines if the dots should be rendered.               |
-| flickerDots?     | true                                                       | Determines if the dots should flicker.                   |
-| dotSize?\*       | 2                                                          | Dot particle size, used in tandem with Math.random().    |
+| Name             | Default Values                                             | Description                                                               |
+| ---------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
+| icons\*          | [ "typescript","javascript","nextdotjs","react","vercel" ] | Array of simple-icon icon names to render.                                |
+| backgroundColor? | "#282828"                                                  | Background color in hexadecimal string format.                            |
+| particleColor?   | "#33FF00"                                                  | Particle color in hexadecimal hexadecimal string format.                  |
+| renderImages?    | true                                                       | Determines if the images should be rendered.                              |
+| renderDots?      | false                                                      | Determines if the dots should be rendered.                                |
+| flickerDots?     | true                                                       | Determines if the dots should flicker.                                    |
+| dotSize?\*\*     | 2                                                          | Dot particle size, used in tandem with Math.random().                     |
+| localPath?       | undefined                                                  | Local icon paths, when provided, it will disable simpleicons cdn fetching |
 
 \* Icons array accepts valid simple-icons icon names. To use non simple-icon icons you must create a local folder
 
